@@ -1,57 +1,64 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class StudentGroup {
-    private final HashMap<String, Student> students;
-    private final ArrayList<String> subjects;
+    private final Map<String, Student> students;
+    private final Set<String> subjects;
     private final int number;
 
-    public StudentGroup(int number, HashMap<String, Student> students, ArrayList<String> subjects) {
+    public StudentGroup(int number) {
         this.number = number;
-        this.students = students;
-        this.subjects = subjects;
+        students = new HashMap<String, Student>();
+        subjects = new HashSet<String>();
     }
 
-    public void addStudent(String fullName) {
+    public boolean addStudent(String fullName) {
+        if (students.containsKey(fullName)) return false;
         students.put(fullName, new Student(fullName, subjects));
+        return true;
     }
 
-    public void deleteStudent(String fullName) {
+    public boolean deleteStudent(String fullName) {
+        if (!students.containsKey(fullName)) return false;
         students.remove(fullName);
+        return true;
     }
 
-    public void addSubject(String subject) {
-        subjects.add(subject);
+    public boolean addSubject(String subject) {
+        if (!subjects.add(subject)) return false;
         for (Student student : students.values()) {
-            changeMark(0, student.getFullName(), subject);
+            student.putMark(subject,"");
         }
+        return true;
     }
 
-    public void deleteSubject(String subject) {
-        try {
-            subjects.remove(subjects.indexOf(subject));
-            for (Student student : students.values()
-            ) {
-                deleteMark(student.getFullName(), subject);
-            }
-        } catch (Exception e) {
-            System.out.println(subject + " нет");
+    public boolean deleteSubject(String subject) {
+        if (!subjects.remove(subject)) return false;
+        for (Student student : students.values()
+        ) {
+            deleteMark(student.getFullName(), subject);
         }
-
+        return true;
     }
 
-    public void changeMark(int mark, String fullName, String subject) {
+    public boolean changeMark(String mark, String fullName, String subject) {
+        if (!students.get(fullName).getMarks().containsKey(subject))
+            return false;
         students.get(fullName).putMark(subject, mark);
+        return true;
     }
 
-    public void deleteMark(String fullName, String subject) {
-        students.get(fullName).removeMark(subject);
+    public boolean deleteMark(String fullName, String subject) {
+        if (!students.get(fullName).getMarks().containsKey(subject))
+            return false;
+        changeMark("", fullName, subject);
+        return true;
     }
 
-    public void showMark(String fullName, String subject) {
-        System.out.println(students.get(fullName).getMarks().get(subject));
+    public String showMark(String fullName, String subject) {
+        if (!students.get(fullName).getMarks().containsKey(subject))
+            return null;
+        return students.get(fullName).getMarks().get(subject);
     }
 }

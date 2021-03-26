@@ -1,22 +1,24 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Student {
     private final String fullName;
-    private final HashMap<String, Integer> marks;
+    private final Map<String, String> marks;
 
-    public Student(String fullName, HashMap<String, Integer> marks) {
+    public Student(String fullName, HashMap<String, String> marks) {
         this.fullName = fullName;
         this.marks = marks;
     }
 
-    public Student(String fullName, ArrayList<String> subjects) {
+    public Student(String fullName, Collection subjects) {
         this.fullName = fullName;
         marks = new HashMap<>();
-        for (String subject : subjects) {
-            marks.put(subject, 0);
+        for (Object subject : subjects) {
+            marks.put((String) subject, "");
         }
     }
 
@@ -24,7 +26,7 @@ public class Student {
         return fullName;
     }
 
-    public void putMark(String subject, int mark) {
+    public void putMark(String subject, String mark) {
         marks.put(subject, mark);
     }
 
@@ -32,7 +34,7 @@ public class Student {
         marks.remove(subject);
     }
 
-    public HashMap<String, Integer> getMarks() {
+    public Map<String, String> getMarks() {
         return marks;
     }
 }
