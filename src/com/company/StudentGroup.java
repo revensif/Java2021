@@ -43,21 +43,21 @@ public class StudentGroup {
     }
 
     public boolean changeMark(String mark, String fullName, String subject) {
-        if (!students.get(fullName).getMarks().containsKey(subject))
+        if (!subjects.contains(subject) || students.get(fullName) == null)
             return false;
         students.get(fullName).putMark(subject, mark);
         return true;
     }
 
     public boolean deleteMark(String fullName, String subject) {
-        if (!students.get(fullName).getMarks().containsKey(subject))
+        if (!subjects.contains(subject) || students.get(fullName) == null)
             return false;
         changeMark("", fullName, subject);
         return true;
     }
 
     public String showMark(String fullName, String subject) {
-        if (!students.get(fullName).getMarks().containsKey(subject))
+        if (!subjects.contains(subject) || students.get(fullName) == null)
             return null;
         return students.get(fullName).getMarks().get(subject);
     }

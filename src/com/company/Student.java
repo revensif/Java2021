@@ -14,11 +14,11 @@ public class Student {
         this.marks = marks;
     }
 
-    public Student(String fullName, Collection subjects) {
+    public Student(String fullName, Collection<String> subjects) {
         this.fullName = fullName;
         marks = new HashMap<>();
-        for (Object subject : subjects) {
-            marks.put((String) subject, "");
+        for (String subject : subjects) {
+            marks.put(subject, "");
         }
     }
 
